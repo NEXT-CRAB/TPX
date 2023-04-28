@@ -65,6 +65,7 @@ py::array_t<TPXHit> parse_binary_file(std::string filename)
         unsigned long long temp;
         
         for (unsigned long long i = 0; i < NumofPacket; i++) {
+            // cout << "i: " << i << endl;
             memcpy(HeaderBuffer, &datapacket[i], 8);            
             if (HeaderBuffer[0] == 'T' && HeaderBuffer[1] == 'P' && HeaderBuffer[2] == 'X') {
                 int size = ((0xff & HeaderBuffer[7]) << 8) | (0xff & HeaderBuffer[6]);
@@ -197,7 +198,8 @@ py::array_t<TPXHit> parse_binary_file(std::string filename)
 
                 }
                 i += (size / 8);
-                printf("i : %lld\r", i);
+                
+                // printf("i : %lld\r", i);
             }
         }
 
