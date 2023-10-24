@@ -33,7 +33,7 @@ py::array_t<TPXHit> parse_binary_file(std::string filename)
 {  
 
 
-    ofstream xy_file("converted.txt");   //Converted and saved txt file
+    // ofstream xy_file("converted.txt");   //Converted and saved txt file
     streampos begin, end;
     ifstream myfile(filename.c_str(), ios::binary);
     unsigned short xpix, ypix, TOT, TOA, spidrTime;
@@ -206,9 +206,9 @@ py::array_t<TPXHit> parse_binary_file(std::string filename)
         delete  [] HeaderBuffer;
         delete [] datapacket;
     }
-    cout<<"the number of TDCs: "<<numofTDC<<endl;
-    xy_file.close();
-    cout << "finished! " << endl;
+    // cout<<"the number of TDCs: "<<numofTDC<<endl;
+    // xy_file.close();
+    // cout << "finished! " << endl;
 
     // // Convert the output to a numpy buffer:
     // auto result = py::array_t<TPXHit>(output.size());
