@@ -231,7 +231,7 @@ py::array_t<TPXHit> parse_binary_file(std::string filename)
 }
 
 
-PYBIND11_MODULE(tpx, m) {
+PYBIND11_MODULE(c_tpx, m) {
     // ...
 
     PYBIND11_NUMPY_DTYPE(TPXHit, TOA, TOT, x, y);

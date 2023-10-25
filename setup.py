@@ -14,7 +14,7 @@ __version__ = "0.0.1"
 #   reproducible builds (https://github.com/pybind/python_example/pull/53)
 
 ext_modules = [
-    Pybind11Extension("tpx",
+    Pybind11Extension("c_tpx",
         ["src/read_tpx_binary.cxx"],
         # Example: passing in the version to the compiled code
         define_macros = [('VERSION_INFO', __version__)],
@@ -30,6 +30,7 @@ setup(
     description="Python Bindings to read Timepix binary files into numpy arrays",
     long_description="",
     ext_modules=ext_modules,
+    packages = ['tpx/'],
     extras_require={"test": "pytest"},
     # Currently, build_ext only provides an optional "highest supported C++
     # level" feature, but in the future it may provide more features.
