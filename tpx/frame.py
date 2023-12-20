@@ -6,6 +6,8 @@ from c_tpx import parse_binary_file
 
 class frame(object):
 
+    hot_pixels = numpy.asarray([51533,])
+
     def __init__(self, * , fname : str = None, data : numpy.ndarray = None):
 
         if fname is not None:
@@ -20,8 +22,21 @@ class frame(object):
         self.shape = self.data.shape
         self.dtype = self.data.dtype
 
-        self.data['TOA'] -= numpy.min(self.data['TOA'])
-        self.data['TOA'] *= 1e-9
+        if fname is not None:
+            # Only apply normalization straight from file:
+            self.data['TOA'] -= numpy.min(self.data['TOA'])
+            self.data['TOA'] *= 1e-9
+            self.data['x'] -= 260
+
+        # Map the x/y into a global index:
+        self.global_index = numpy.ravel_multi_index(
+            [self.data['x'], self.data['y']],
+            [256,256]
+        )
+
+        # # find all pixels to mask:
+        # mask = self.global_index != 51533
+        # self.data = self.data[mask]
 
     def __getitem__(self, key):
         return self.data[key]
@@ -35,10 +50,15 @@ class frame(object):
         return frame(data=self.data[where])
 
 
+    def threshold_min(self, ToT_threshold = 1e6):
+
+        where = self.data['TOT'] < ToT_threshold
+        return frame(data=self.data[where])
+
     def time_slice(self, start_time, end_time):
-        where = self.data['TOA'] > start_time
+        where = self.data['TOA'] >= start_time
         d = self.data[where]
-        where = d['TOA'] < end_time
+        where = d['TOA'] <= end_time
         return frame(data=d[where])
 
 # Define a hit dtype:
